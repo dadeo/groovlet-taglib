@@ -11,11 +11,29 @@
 
     <name>groovlet-taglib</name>
 
+    <scm>
+        <developerConnection>scm:git:git://github.com/dadeo/groovlet-taglib.git</developerConnection>
+    </scm>
+
     <properties>
         <groovy.version>1.8.1</groovy.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>3.0.5.RELEASE</spring.version>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>google-code</id>
+            <name>Local Maven repository of releases</name>
+            <url>dav:https://dadeo.googlecode.com/svn/mvn-repo/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>google-code</id>
+            <name>Local Maven repository of snapshots</name>
+            <url>dav:https://dadeo.googlecode.com/svn/mvn-repo/snapshot</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -86,6 +104,13 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+            </extension>
+        </extensions>
+
         <plugins>
             <plugin>
                 <groupId>org.codehaus.gmaven</groupId>
@@ -166,6 +191,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0-beta-8</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
             </plugin>
 
         </plugins>
