@@ -5,5 +5,7 @@ html.html {
     date id: 'date1', format: 'MM-dd-yyyy'
     br()
     date id: 'date2', format: 'yyyy-MM-dd'
+    br()
+    p id: 'parameter_firstName', request.getParameter('firstName')
   }
 }

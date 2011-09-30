@@ -22,7 +22,19 @@ abstract class AbstractServerTest extends TestCase {
 
   void setUp() {
     server.start()
-    web = new WebDsl().for("http://localhost:$PORT/${defaultPage()}")
+    openPage()
+  }
+
+  protected def openPage(String page = null) {
+    openPage([:], page)
+  }
+
+  protected def openPage(Map params, String page = null) {
+    def queryString = ''
+    if(params) {
+      queryString = '?' + params.collect { k, v -> "$k=${URLEncoder.encode(v)}"}.join('&')
+    }
+    web = new WebDsl().for("http://localhost:$PORT/${page ?: defaultPage()}$queryString")
   }
 
   protected String defaultPage() {

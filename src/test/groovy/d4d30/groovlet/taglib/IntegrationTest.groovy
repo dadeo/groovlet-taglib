@@ -12,6 +12,8 @@
  */
 package d4d30.groovlet.taglib
 
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException
+
 
 class IntegrationTest extends AbstractServerTest {
 
@@ -25,6 +27,29 @@ class IntegrationTest extends AbstractServerTest {
     web.do {
       assert date1.text == '01-03-2010'
       assert date2.text == '2010-01-03'
+    }
+  }
+
+  void test_request_parameter_not_specified() {
+    web.do {
+      assert parameter_firstName.text == ''
+    }
+  }
+
+  void test_request_parameter_accessible() {
+    openPage(firstName:'pinky')
+    web.do {
+      assert parameter_firstName.text == 'pinky'
+    }
+  }
+
+  void test_response_accessible() {
+    try {
+      openPage 'error.groovy'
+      fail('should fail with 400 response code')
+    }
+    catch(FailingHttpStatusCodeException e) {
+      assert e.message == '400 Forced Error for http://localhost:8081/error.groovy'
     }
   }
 
