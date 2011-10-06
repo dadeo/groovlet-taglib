@@ -13,16 +13,28 @@
 package d4d30.groovlet.taglib
 
 import d4d30.groovlet.taglib.internal.AbstractTagLibGroovyServlet
-import d4d30.groovlet.taglib.internal.ClassNameInputParameterSplitter
 import javax.servlet.ServletConfig
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import org.springframework.web.servlet.FrameworkServlet
 
-class TagLibGroovyServlet extends AbstractTagLibGroovyServlet {
-  private ClassNameInputParameterSplitter classNameInputParameterSplitter = new ClassNameInputParameterSplitter()
+class SpringTagLibGroovyServlet extends AbstractTagLibGroovyServlet {
+  private FrameworkServlet frameworkServlet
+
+  protected Collection<Object> findTagLibs(ServletConfig config) {
+    frameworkServlet = new FrameworkServlet() {
+      @Override
+      protected void doService(HttpServletRequest request, HttpServletResponse response) {
+      }
+    }
+    frameworkServlet.init(config)
+    frameworkServlet.webApplicationContext.getBeansWithAnnotation(TagLib).values()
+  }
 
   @Override
-  protected Collection<Object> findTagLibs(ServletConfig config) {
-    def tagLibNames = classNameInputParameterSplitter.split(config.getInitParameter('tagLibs'))
-    tagLibNames.collect { Class.forName(it).newInstance() }
+  void destroy() {
+    super.destroy()
+    frameworkServlet.destroy()
   }
 
 }

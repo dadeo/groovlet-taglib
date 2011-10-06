@@ -10,17 +10,14 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-package d4d30.groovlet.taglib;
+package d4d30.groovlet.taglib.support
 
-import org.springframework.stereotype.Component;
+import d4d30.groovlet.taglib.Tag
+import d4d30.groovlet.taglib.TagLib
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Component
-public @interface TagLib {
+@TagLib
+class FooTagLib {
+  @Tag def foo1 = { 'FOO1' }
+  @Tag def foo2 = { 'FOO2' }
+  def foo3 = { 'FOO3' }
 }

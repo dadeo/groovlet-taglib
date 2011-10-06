@@ -9,12 +9,21 @@
 
     <servlet>
         <servlet-name>Groovy</servlet-name>
-        <servlet-class>d4d30.groovlet.taglib.TagLibGroovyServlet</servlet-class>
+        <servlet-class>d4d30.groovlet.taglib.SpringTagLibGroovyServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:/contexts/taglib.xml</param-value>
         </init-param>
     </servlet>
+
+    <!--<servlet>-->
+        <!--<servlet-name>Groovy</servlet-name>-->
+        <!--<servlet-class>d4d30.groovlet.taglib.TagLibGroovyServlet</servlet-class>-->
+        <!--<init-param>-->
+        <!--<param-name>tagLibs</param-name>-->
+        <!--<param-value>d4d30.groovlet.taglib.TestTagLib</param-value>-->
+        <!--</init-param>-->
+    <!--</servlet>-->
 
     <servlet>
         <servlet-name>default</servlet-name>

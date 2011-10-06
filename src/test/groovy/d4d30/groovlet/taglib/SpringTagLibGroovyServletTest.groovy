@@ -19,8 +19,8 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.mock.web.MockServletConfig
 import org.springframework.mock.web.MockServletContext
 
-class TagLibGroovyServletTest extends TestCase {
-  TagLibGroovyServlet servlet
+class SpringTagLibGroovyServletTest extends TestCase {
+  SpringTagLibGroovyServlet servlet
   ServletBinding binding
 
   @Override
@@ -67,14 +67,12 @@ class TagLibGroovyServletTest extends TestCase {
     binding
   }
 
-  private TagLibGroovyServlet createServlet() {
-    TagLibGroovyServlet servlet = new TagLibGroovyServlet()
+  private SpringTagLibGroovyServlet createServlet() {
+    SpringTagLibGroovyServlet servlet = new SpringTagLibGroovyServlet()
 
     MockServletConfig servletConfig = new MockServletConfig('taglib')
-    servletConfig.addInitParameter('tagLibs', """
-        d4d30.groovlet.taglib.support.FooTagLib
-        d4d30.groovlet.taglib.support.BarTagLib
-      """)
+    servletConfig.addInitParameter('contextConfigLocation', 'd4d30.groovlet.taglib.support')
+    servletConfig.addInitParameter('contextClass', 'org.springframework.web.context.support.AnnotationConfigWebApplicationContext')
     servlet.init(servletConfig)
     servlet
   }

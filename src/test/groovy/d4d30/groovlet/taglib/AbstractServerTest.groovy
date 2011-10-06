@@ -12,8 +12,8 @@
  */
 package d4d30.groovlet.taglib
 
-import webdsl.WebDsl
 import junit.framework.TestCase
+import webdsl.WebDsl
 
 abstract class AbstractServerTest extends TestCase {
   public static final PORT = 8081
@@ -31,7 +31,7 @@ abstract class AbstractServerTest extends TestCase {
 
   protected def openPage(Map params, String page = null) {
     def queryString = ''
-    if(params) {
+    if (params) {
       queryString = '?' + params.collect { k, v -> "$k=${URLEncoder.encode(v)}"}.join('&')
     }
     web = new WebDsl().for("http://localhost:$PORT/${page ?: defaultPage()}$queryString")

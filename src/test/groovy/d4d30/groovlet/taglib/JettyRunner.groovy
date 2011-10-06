@@ -13,7 +13,6 @@
 package d4d30.groovlet.taglib
 
 import org.mortbay.jetty.Server
-
 import org.mortbay.jetty.webapp.WebAppContext
 
 public class JettyRunner {
@@ -23,8 +22,8 @@ public class JettyRunner {
   private Server server
 
   JettyRunner(options) {
-    if(options == null) {
-      options = [port:8081]
+    if (options == null) {
+      options = [port: 8081]
     }
 
     final URL warUrl = this.class.getClassLoader().getResource(WEB_APP_DIRECTORY);
