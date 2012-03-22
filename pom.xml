@@ -110,6 +110,9 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>src/main/groovy</sourceDirectory>
+        <testSourceDirectory>src/test/groovy</testSourceDirectory>
+        
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
