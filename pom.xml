@@ -15,7 +15,7 @@
     </scm>
 
     <properties>
-        <groovy.version>1.8.6</groovy.version>
+        <groovy.version>1.8.7</groovy.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>3.0.5.RELEASE</spring.version>
     </properties>
