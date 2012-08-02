@@ -31,11 +31,29 @@ abstract class AbstractTagLibGroovyServlet extends GroovyServlet {
 
   @Override
   protected void setVariables(ServletBinding binding) {
-    tags.each { tagName, tagClosure ->
-      Closure closure = tagClosure.clone()
-      closure.delegate = binding
-      binding.setVariable(tagName, closure)
-    }
+    binding.setVariable('tag', new TagWrapper(tags, binding))
+//    tags.each { tagName, tagClosure ->
+//      Closure closure = tagClosure.clone()
+//      closure.delegate = binding
+//      binding.setVariable(tagName, closure)
+//    }
   }
 
+  class TagWrapper implements GroovyInterceptable {
+    private Map<String, Closure> tags = [:]
+    private binding
+
+    TagWrapper(tags, binding) {
+      this.binding = binding
+      this.tags = tags
+    }
+
+    @Override
+    Object invokeMethod(String name, Object args) {
+      Closure closure = tags[name].clone()
+      closure.delegate = binding
+      closure(*args)
+    }
+
+  }
 }

@@ -41,20 +41,9 @@ class SpringTagLibGroovyServletTest extends TestCase {
     assertTagNotExists 'foo3'
   }
 
-  void test_setVariables_sets_binding_as_tags_delegate() {
-    assert binding.is(binding.getVariable('foo1').delegate)
-  }
-
-  void test_setVariables_clones_tag() {
-    def binding_1_foo = binding.getVariable('foo1')
-    def binding_2_foo = createBindingAndSetVariables().getVariable('foo1')
-
-    assert binding_1_foo.delegate != binding_2_foo.delegate
-  }
-
   private def assertTagExists(String tagName) {
-    def tag = binding.getVariable(tagName)
-    assert tag() == tagName.toUpperCase()
+    def tag = binding.getVariable('tag')
+    assert tag."$tagName"() == tagName.toUpperCase()
   }
 
   private def assertTagNotExists(String tagName) {
