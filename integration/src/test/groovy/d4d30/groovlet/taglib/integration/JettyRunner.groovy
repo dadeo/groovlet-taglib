@@ -12,28 +12,42 @@
  */
 package d4d30.groovlet.taglib.integration
 
-import org.mortbay.jetty.Server
-import org.mortbay.jetty.webapp.WebAppContext
+import d4d30.groovlet.taglib.standard.TagLibGroovyServlet
+import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.servlet.ServletHolder
+import org.eclipse.jetty.webapp.WebAppContext
 
 public class JettyRunner {
   private final String CONTEXT_PATH = "/"
   private final String WEB_APP_DIRECTORY = "webapp"
 
   private Server server
+  private Map options
+  private List servletConfigurations = []
 
-  JettyRunner(options) {
-    if (options == null) {
-      options = [port: 8081]
-    }
-
-    final URL warUrl = this.class.getClassLoader().getResource(WEB_APP_DIRECTORY);
-    final String warUrlString = warUrl.toExternalForm();
-
-    server = new Server(options.port);
-    server.setHandler(new WebAppContext(warUrlString, CONTEXT_PATH));
+  JettyRunner(options = [:]) {
+    if (!options.port) options.port = 8081
+    if (!options.webXml) options.webXml = "web.xml"
+    this.options = options
   }
 
   def start() {
+    final URL warUrl = this.class.getClassLoader().getResource(WEB_APP_DIRECTORY)
+    final URL webXml = this.class.getClassLoader().getResource(WEB_APP_DIRECTORY + "/WEB-INF/${options.webXml}");
+
+    WebAppContext context = new WebAppContext(warUrl.toExternalForm(), CONTEXT_PATH)
+    context.descriptor = webXml.toExternalForm()
+
+    servletConfigurations.each { servletConfiguration ->
+      ServletHolder springServletHolder = new ServletHolder(servletConfiguration.servletClass)
+      servletConfiguration.initParams.each { initParam ->
+        springServletHolder.setInitParameter(initParam.key, initParam.value)
+      }
+      context.addServlet(springServletHolder, servletConfiguration.pathSpec);
+    }
+
+    server = new Server(options.port);
+    server.setHandler(context);
     server.start()
   }
 
@@ -41,8 +55,14 @@ public class JettyRunner {
     server.stop()
   }
 
+  def addServlet(Class servletClass, String pathSpec, Map initParams) {
+    servletConfigurations << [servletClass: servletClass, pathSpec: pathSpec, initParams: initParams]
+  }
+
   static void main(args) {
     JettyRunner runner = new JettyRunner()
+    runner.addServlet(TagLibGroovyServlet, '*.groovy', [tagLibs: 'd4d30.groovlet.taglib.integration.support.TestTagLib'])
+//    runner.addServlet(SpringTagLibGroovyServlet, '*.groovy', [contextConfigLocation: 'classpath:/contexts/taglib.xml'])
     runner.start()
     runner.server.join()
   }

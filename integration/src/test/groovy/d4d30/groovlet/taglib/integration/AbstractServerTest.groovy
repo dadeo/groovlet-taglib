@@ -12,15 +12,18 @@
  */
 package d4d30.groovlet.taglib.integration
 
+import d4d30.groovlet.taglib.spring.SpringTagLibGroovyServlet
 import junit.framework.TestCase
 import webdsl.WebDsl
 
 abstract class AbstractServerTest extends TestCase {
   public static final PORT = 8081
   def web
-  def server = new JettyRunner(port: PORT)
+  def server
 
   void setUp() {
+    server = new JettyRunner(port: PORT)
+    configureServer server
     server.start()
     openPage()
   }
@@ -45,4 +48,6 @@ abstract class AbstractServerTest extends TestCase {
     server.stop()
   }
 
+  protected def configureServer(server) {
+  }
 }

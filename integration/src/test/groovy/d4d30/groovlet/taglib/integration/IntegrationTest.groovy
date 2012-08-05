@@ -14,7 +14,7 @@ package d4d30.groovlet.taglib.integration
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException
 
-class IntegrationTest extends AbstractServerTest {
+abstract class IntegrationTest extends AbstractServerTest {
 
   void test_groovlet_page_displayed() {
     web.do {

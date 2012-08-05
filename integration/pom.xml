@@ -20,6 +20,11 @@
     <dependencies>
         <dependency>
             <groupId>d4d30</groupId>
+            <artifactId>groovlet-taglib-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>d4d30</groupId>
             <artifactId>groovlet-taglib-spring</artifactId>
         </dependency>
 
@@ -43,11 +48,11 @@
             <artifactId>groovy-all</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>servlet-api</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -56,8 +61,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty</artifactId>
+            <groupId>org.eclipse.jetty.aggregate</groupId>
+            <artifactId>jetty-all</artifactId>
             <scope>test</scope>
         </dependency>
 
